@@ -1,0 +1,21 @@
+# @Encoding:      UTF-8
+# @File:          cifar100_random_untrained_kaiming_normal_resnet18.yaml
+#
+# @Introduction:  config of randomly sampling cifar100, for untrained resnet18 initialized by Kaiming_Normal.
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+
+name: cifar100_random_untrained_kaiming_normal_resnet18
+
+defaults:
+  - data: CIFAR100_untrained_random
+  - impl: default
+  - server: honest-but-curious_kaiming_normal
+  - user: local_gradient
+  - _self_
+
+model: ResNet18
+model_nickname: ResNet18-kaiming_normal
+
+# Server and user:
+num_queries: 1

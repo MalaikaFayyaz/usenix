@@ -1,0 +1,38 @@
+# @Encoding:      UTF-8
+# @File:          celeba_hq_identity_random_untrained_kaiming_normal_resnet18_pruning_outpost_0.9.yaml
+#
+# @Introduction:  config of randomly sampling CelebA-HQ-Identity, for untrained resnet18 with Kaiming Normal Initialization, 
+#                 but user will introduce gradient pruning with ratio 90% (Soteria).
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+# @Reference:     https://platodocs.netlify.app/examples/algorithms/14.%20gradient%20leakage%20attacks%20and%20defences/#dlg-related-configurations
+
+name: celeba_hq_identity_random_untrained_kaiming_normal_resnet18_pruning_outpost_0.9
+
+defaults:
+  - data: celeba_hq_identity_random
+  - impl: default
+  - server: honest-but-curious_kaiming_normal
+  - user: local_gradient_outpost_pruning_0.1
+  - _self_
+
+model: ResNet18
+model_nickname: ResNet18-kaiming_normal(outpost 90%)
+
+# Server and user:
+num_queries: 1
+
+# Local differential privacy:
+user:
+  local_diff_privacy:
+    gradient_noise: 0.0
+    input_noise: 0.0
+    distribution: laplacian
+    per_example_clipping: 0.0
+    
+    pruning_type: outpost
+    pruning_ratio: 0.9
+    outpost_noise_perturb_ratio: 0.4
+    outpost_noise_scale_lambda: 0.8
+    outpost_fail_preserve_rate_beta: 0.125
+    outpost_simulating_epoch: 0

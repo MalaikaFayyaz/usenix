@@ -1,0 +1,26 @@
+# @Encoding:      UTF-8
+# @File:          celeba_hq_identity_random_kaiming_normal_resnet18_batch_16_epoch_1.yaml
+#
+# @Introduction:  config of random sampling CelebA-HQ-Identity with batch size 16, for resnet18 initialized by kaiming normal.
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+
+name: celeba_hq_identity_random_kaiming_normal_resnet18_batch_16_epoch_1
+
+defaults:
+  - data: celeba_hq_identity_random
+  - impl: default
+  - server: honest-but-curious_kaiming_normal
+  - user: local_gradient
+  - _self_
+
+model: ResNet18
+model_nickname: ResNet18-kaiming_normal(Batch 16, Epoch 1)
+
+# Server and user:
+num_queries: 1
+
+user:
+  num_data_points: 16
+  user_idx: 0
+  provide_labels: False

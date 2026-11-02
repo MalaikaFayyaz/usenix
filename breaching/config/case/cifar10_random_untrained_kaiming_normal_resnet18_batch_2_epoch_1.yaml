@@ -1,0 +1,26 @@
+# @Encoding:      UTF-8
+# @File:          cifar10_random_untrained_kaiming_normal_resnet18_batch_2_epoch_1.yaml
+#
+# @Introduction:  config of random sampling CIFAR10 with batch size 2, for resnet18 initialized by Kaiming_Normal.
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+
+name: cifar10_random_untrained_kaiming_normal_resnet18_batch_2_epoch_1
+
+defaults:
+  - data: CIFAR10_untrained_random
+  - impl: default
+  - server: honest-but-curious_kaiming_normal
+  - user: local_gradient
+  - _self_
+
+model: ResNet18
+model_nickname: ResNet18-kaiming_normal(Batch 2, Epoch 1)
+
+# Server and user:
+num_queries: 1
+
+user:
+  num_data_points: 2
+  user_idx: 0
+  provide_labels: False

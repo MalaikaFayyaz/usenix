@@ -1,0 +1,28 @@
+defaults:
+  - _default_optimization_attack
+  - _self_
+type: CFGIA_fining_tv5e-3
+label_strategy: yin
+
+objective:
+  type: hybrid-inversion
+  scale: 1.0
+  rank: 1.0
+
+restarts:
+  num_trials: 5
+  scoring: "default"
+
+optim:
+  optimizer: adam
+  step_size: 0.01
+  boxed: True
+  max_iterations: 30000
+  step_size_decay: cosine-decay
+  callback: 1000 # Print objective value every callback many iterations
+
+regularization:
+  total_variation:
+    scale: 5e-3 # The old version did not take the mean dx + dy as the new version, so this corresponds to 0.1 in the old repo
+    inner_exp: 1
+    outer_exp: 1

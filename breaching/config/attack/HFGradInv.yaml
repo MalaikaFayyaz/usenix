@@ -1,0 +1,53 @@
+#
+# @Encoding:      UTF-8
+# @File:          HFGradInv.yaml
+
+# @Introduction:  config of "High-Fidelity Gradient Inversion", for attacking ResNet-18 model.
+# @Author:        Kaiming Zhu
+# @Date:          2025/1/15 19:07:27
+#
+# @Reference:     [1] https://github.com/MiLab-HITSZ/2023YeHFGradInv
+#                 [2] Z. Ye, W. Luo, Q. Zhou, and Y. Tang, “High-Fidelity Gradient Inversion in Distributed Learning,” in 
+#                     AAAI Conference on Artificial Intelligence, 2024, pp. 19983–19991.
+#
+
+defaults:
+  - _default_optimization_attack
+  - _self_
+type: HFGradInv
+label_strategy: yin
+
+objective:
+  type: dyna-layer-rand-cosine-similarity
+  start: 50
+  min_start: 15
+  peroid_Add10: 500
+
+restarts:
+  num_trials: 5
+  scoring: cosine-similarity
+
+init: randn
+optim:
+  optimizer: adam
+  signed: "hard_quantify"
+  mul_scale: 2
+  step_size: 0.1
+  boxed: True
+  max_iterations: 30000
+  step_size_decay: step-lr
+  langevin_noise: 0
+  warmup: 0
+  distance_constraint:
+    stop_iter: 200
+    decay_rate: 1
+    decay_dis_rate: 1
+
+  callback: 1000
+
+regularization:
+  total_variation:
+    scale: 5e-3
+    inner_exp: 1
+    outer_exp: 1
+    start_iter: 3000

@@ -1,0 +1,55 @@
+name: CelebA-HQ-Identity
+modality: vision
+task: classification
+
+# @Encoding:      UTF-8 
+# @File:          celeba_hq_identity.yaml
+# @Introduction:  config of CelebA-HQ-Identity Dataset.
+#
+# @Author:        Kaiming Zhu
+# @Date:          2025/03/31 15:47
+# @Reference:     [1] https://github.com/ndb796/CelebA-HQ-Face-Identity-and-Attributes-Recognition-PyTorch/blob/main/identity_dataset_generator.py
+#                 [2] https://github.com/ndb796/CelebA-HQ-Face-Identity-and-Attributes-Recognition-PyTorch/blob/main/CelebAMask_HQ_Dataset_Processing.ipynb\
+#
+# @Notes:         1. Please make CelebAHQ-Identity Dataset refer to [2] before you run this scripts, 
+#                    we align with all the hyper-param in this file.
+#                 2. CelebA-HQ-Identity is trained by transfer learning with ResNet-18 pre-trained by
+#                    ImageNet. And this is the reason why they share same normalization params.
+#                    
+
+path: "~/data/celeba-hq-identity"
+size: 4263 # trainset: 4263, testset: 1215
+classes: 307
+shape:
+  - 3
+  - 224
+  - 224
+
+# Preprocessing
+normalize: True
+mean:
+  - 0.485
+  - 0.456
+  - 0.406
+std:
+  - 0.229
+  - 0.224
+  - 0.225
+
+# Data Augmentations:
+augmentations_train:
+  Resize: 224
+  RandomHorizontalFlip: 0.5
+augmentations_val:
+  Resize: 224
+
+# Federated Learning specifics:
+default_clients: 40
+partition: random
+examples_from_split: test
+
+# Data-specific implementation constants:
+batch_size: 256
+caching: False
+defaults:
+  - db: none # Database Setup # use the cmd-line to activate the LMDB module with data.db=LMDB

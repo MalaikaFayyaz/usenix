@@ -1,0 +1,50 @@
+# @Encoding:      UTF-8
+# @File:          cifar10_trained_unique_class.yaml
+#
+# @Introduction:  config of unique class sampling cifar10, for pretrained-resnet in hf_hub:edadaltocg.
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:08
+# @Reference:     https://huggingface.co/edadaltocg/resnet18_cifar10/blob/main/config.json
+# @Notes:         Mean and Std would be different to other cifar-configs, plz see reference for more detail.
+
+name: CIFAR10
+modality: vision
+task: classification
+
+path: "~/data"
+size: 50_000
+classes: 10
+shape:
+  - 3
+  - 32
+  - 32
+
+# Preprocessing
+normalize: True
+mean:
+  - 0.4914
+  - 0.4822
+  - 0.4465
+std:
+  - 0.2023
+  - 0.1994
+  - 0.201
+
+# Data Augmentations
+augmentations_train:
+  RandomCrop:
+    - 32
+    - 4
+  RandomHorizontalFlip: 0.5
+augmentations_val:
+
+# Federated Learning specifics:
+default_clients: 10
+partition: unique-class
+examples_from_split: validation
+
+# Data-specific implementation constants:
+batch_size: 128
+caching: False
+defaults:
+  - db: none # Database Setup # use the cmd-line to activate the LMDB module with data.db=LMDB

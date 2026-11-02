@@ -1,0 +1,22 @@
+# @Encoding:      UTF-8
+# @File:          cifar10_random_trained_resnet18.yaml
+#
+# @Introduction:  config of randomly sampling cifar10, evaluating on a resnet18 trained on it (released).
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+
+name: cifar10_random_trained_resnet18
+
+defaults:
+  - data: CIFAR10_trained_random
+  - impl: default
+  - server: honest-but-curious_transferred
+  - user: local_gradient
+  - _self_
+
+model: ResNet18
+state_dict_path: "https://hf-mirror.com/edadaltocg/resnet18_cifar10/resolve/main/pytorch_model.bin"
+remote_state_dict_cached_filename: "edadaltocg_resnet18_cifar10"
+
+# Server and user:
+num_queries: 1

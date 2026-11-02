@@ -1,0 +1,50 @@
+#
+# @Encoding:      UTF-8
+# @File:          SAPAG.yaml
+
+# @Introduction:  config of SAPAG attack, i.e. "Variance of the Gradient Also Matters: Privacy Leakage from Gradients".
+# @Author:        Kaiming Zhu
+# @Date:          2024/8/27 20:56
+# @Reference:     Y. Wang et al., “Variance of the Gradient Also Matters: Privacy Leakage from Gradients,” in International 
+#                 Joint Conference on Neural Networks, Jul. 2022, pp. 1–8. doi: 10.1109/IJCNN55064.2022.9892665.
+#
+# @Notes:         This is not official implementation, comparing to algorithm proposed in paper, we have done following modifications:
+#                 1) We do not jointly optimized (x, y), but just randomly initialized x, optimize it with inferred label `y`. 
+#                 2) We follow the hyper parameters in paper, but align it with configs in `./tag.yaml`, which is also published by
+#                    same authors, with a similar algorithm for Gradient Inversion Attack in NLP tasks.
+#
+#                 Both modification have improved its performance empirically.
+
+defaults:
+  - _default_optimization_attack
+  - _self_
+type: SAPAG
+label_strategy: yin
+
+objective:
+  type: kernelscalingnorm
+  scale: 1.0
+  rank: 2.0
+  need_var_scale: True
+  weighted_config:
+    style: "sapag"
+    indices: "all"
+    need_average: True
+    use_cached: True
+
+restarts:
+  num_trials: 5
+  scoring: "default"
+
+optim:
+  optimizer: bert-adam
+  step_size: 0.05
+  boxed: True
+  max_iterations: 30000
+  # grad_clip: 1.0
+  
+  # Next two settings are guesses but seem to improve the baseline:
+  warmup: 50 # This is a guess, they might be using a bert-adam optimization implementation including this
+  step_size_decay: linear # This is a guess, they might be using a bert-adam optimization implementation including this
+
+  callback: 1000 # Print objective value every callback many iterations

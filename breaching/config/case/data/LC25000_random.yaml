@@ -1,0 +1,41 @@
+name: LC25000
+modality: vision
+task: classification
+
+path: "~/data/lung_colon_image_set/"
+size: 2499
+classes: 5
+shape:
+  - 3
+  - 224
+  - 224
+
+# Preprocessing:
+normalize: True
+mean:
+  - 0.485
+  - 0.456
+  - 0.406
+std:
+  - 0.229
+  - 0.224
+  - 0.225
+
+# Data Augmentations:
+augmentations_train:
+  Resize: 224
+  RandomHorizontalFlip: 0.5
+  RandomRotation: 10
+augmentations_val:
+  Resize: 224
+
+# Federated Learning specifics:
+default_clients: 40
+partition: random # used for synthetic splits. Current options for synthetic split: balanced / unique-class
+examples_from_split: validation
+
+# Data-specific implementation constants:
+batch_size: 128
+caching: False
+defaults:
+  - db: none # Database Setup # use the cmd-line to activate the LMDB module with data.db=LMDB

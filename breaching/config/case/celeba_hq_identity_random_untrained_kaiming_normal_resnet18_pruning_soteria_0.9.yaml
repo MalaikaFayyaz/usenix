@@ -1,0 +1,31 @@
+# @Encoding:      UTF-8
+# @File:          celeba_hq_identity_random_untrained_kaiming_normal_resnet18_pruning_soteria_0.9.yaml
+#
+# @Introduction:  config of randomly sampling CelebA-HQ-Identity, for untrained resnet18 with Kaiming Normal Initialization, 
+#                 but user will introduce gradient pruning with ratio 90% (Soteria).
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+
+name: celeba_hq_identity_random_untrained_kaiming_normal_resnet18_pruning_soteria_0.9
+
+defaults:
+  - data: celeba_hq_identity_random
+  - impl: default
+  - server: honest-but-curious_kaiming_normal
+  - user: local_gradient_soteria_pruning_0.9
+  - _self_
+
+model: ResNet18
+model_nickname: ResNet18-kaiming_normal(soteria 90%)
+
+# Server and user:
+num_queries: 1
+
+user:
+  local_diff_privacy:
+    gradient_noise: 0.0
+    input_noise: 0.0
+    distribution: laplacian
+    per_example_clipping: 0.0
+    pruning_ratio: 0.9
+    pruning_type: soteria

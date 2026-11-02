@@ -1,0 +1,42 @@
+#
+# @Encoding:      UTF-8
+# @File:          iDLG_adam.yaml
+
+# @Introduction:  config of "Improved Deep Leakage from Gradients", an reimplemented version.
+# @Author:        Kaiming Zhu
+# @Date:          2024/11/29 22:17:31
+#
+# @Notes:         Comparing with official implementation[1], we aligned the optimizer and hyper params as "See 
+#                 through Gradients: Image Batch Recovery via GradInversion", cause Adam optimizer perform generally
+#                 better than L-BFGS, which is empirically proved by previous work[2].
+#
+# @Reference:     [1] https://github.com/PatrickZH/Improved-Deep-Leakage-from-Gradients
+#                 [2] Y. Wang et al., “Variance of the Gradient Also Matters: Privacy Leakage from Gradients,” in International 
+#                 Joint Conference on Neural Networks, Jul. 2022, pp. 1–8. doi: 10.1109/IJCNN55064.2022.9892665.
+#
+
+
+defaults:
+  - _default_optimization_attack
+  - _self_
+type: iDLG_adam
+label_strategy: yin
+
+objective:
+  type: euclidean
+  scale: 1
+
+restarts:
+  num_trials: 5
+  scoring: "default"
+
+optim:
+  optimizer: adam
+  signed: False
+  step_size: 0.1
+  boxed: True
+  max_iterations: 30_000
+  step_size_decay: cosine-decay
+  warmup: 50
+
+  callback: 1000 # Print objective value every callback many iterations

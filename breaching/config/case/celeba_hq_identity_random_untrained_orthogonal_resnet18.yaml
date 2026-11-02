@@ -1,0 +1,21 @@
+# @Encoding:      UTF-8
+# @File:          celeba_hq_identity_random_untrained_orthogonal_resnet18.yaml
+#
+# @Introduction:  config of randomly sampling CelebA-HQ-Identity, for untrained resnet18 with Orthogonal Initialization.
+# @Author:        Kaiming Zhu
+# @Date:          2024/5/25 16:40
+
+name: celeba_hq_identity_random_untrained_orthogonal_resnet18
+
+defaults:
+  - data: celeba_hq_identity_random
+  - impl: default
+  - server: honest-but-curious_orthogonal
+  - user: local_gradient
+  - _self_
+
+model: ResNet18
+model_nickname: ResNet18-orthogonal
+
+# Server and user:
+num_queries: 1
